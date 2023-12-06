@@ -1,0 +1,69 @@
+﻿@*@{
+    ViewData["Title"] = "Home Page";
+}*@
+
+<div class="clock-container">
+    <div class="clock" id="clock">
+        <div class="hour" id="hour"></div>
+        <div class="minute" id="minute"></div>
+        <div class="second" id="second"></div>
+    </div>
+</div>
+
+<style>
+
+    .clock-container {
+        text-align: center;
+    }
+
+    .clock {
+        width: 200px;
+        height: 200px;
+        border: 2px solid #333;
+        border-radius: 50%;
+        position: relative;
+        margin: 20px auto;
+    }
+
+    .hour, .minute, .second {
+        position: absolute;
+        width: 50%;
+        height: 2px;
+        background-color: #333;
+        top: 50%;
+        transform-origin: 100%;
+        transform: rotate(90deg);
+    }
+
+    .minute {
+        height: 4px;
+    }
+
+    .hour {
+        height: 6px;
+    }
+</style>
+
+<script>
+    function updateClock() {
+        const now = new Date();
+        const secondHand = document.getElementById('second');
+        const minuteHand = document.getElementById('minute');
+        const hourHand = document.getElementById('hour');
+
+        const seconds = now.getSeconds();
+        const minutes = now.getMinutes();
+        const hours = now.getHours() % 12;
+
+        rotateHand(secondHand, (seconds / 60) * 360);
+        rotateHand(minuteHand, ((minutes + seconds / 60) / 60) * 360);
+        rotateHand(hourHand, ((hours + minutes / 60) / 12) * 360);
+    }
+
+    function rotateHand(hand, degree) {
+        hand.style.transform = `rotate(${degree}deg)`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+</script>
